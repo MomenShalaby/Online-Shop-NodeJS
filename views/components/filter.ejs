@@ -1,0 +1,13 @@
+<div><form action="" method="get">
+    
+    <select name="category" class="form-control">
+
+        <option value="all">ALL</option>
+        <% for (let category of categories) { %>
+        <option value="<%= category %>" > <%= category %></option>
+        <% } %>
+    </select> 
+    <br>
+    <input type="submit" class="btn btn-primary" value="Filter">
+</form>
+</div>
