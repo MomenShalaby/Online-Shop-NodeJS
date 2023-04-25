@@ -1,6 +1,7 @@
 
 const mongoose = require('mongoose')
-const DB_URL = "mongodb://127.0.0.1:27017/online_shop";
+// const DB_URL = "mongodb://127.0.0.1:27017/online_shop";
+const DB_URL = "mongodb+srv://momenahmed2010:blIZhpDsyFOFOBCe@cluster0.qs8mrwv.mongodb.net/?retryWrites=true&w=majority"
 
 const { ObjectId } = mongoose.Types;
 
