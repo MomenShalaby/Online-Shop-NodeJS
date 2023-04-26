@@ -10,7 +10,6 @@ const home_route = require('./routes/home_route')
 const product_route =require('./routes/product_route')
 const auth_route=require('./routes/auth_route')
 
-
 app.use(express.static(path.join(__dirname, 'assets')))
 app.use(express.static(path.join(__dirname, 'images')))
 
