@@ -10,11 +10,13 @@ const home_route = require('./routes/home_route')
 const product_route =require('./routes/product_route')
 const auth_route=require('./routes/auth_route')
 
+const flash = require('connect-flash')
+
 app.use(express.static(path.join(__dirname, 'assets')))
 app.use(express.static(path.join(__dirname, 'images')))
 
-// const DB_URL = "mongodb://127.0.0.1:27017/online_shop";
-const DB_URL = "mongodb+srv://momenahmed2010:blIZhpDsyFOFOBCe@cluster0.qs8mrwv.mongodb.net/?retryWrites=true&w=majority"
+require('dotenv').config()
+const DB_URL = process.env.DATABASE_URL
 
 
 const store = new SessionStore({
@@ -27,6 +29,8 @@ app.use(session({
     saveUninitialized:false,
     store:store
 }))
+
+app.use(flash())
 
 app.set('view engine', 'ejs')
 
@@ -41,6 +45,6 @@ app.use('/',auth_route)
 app.use('/product',product_route)
 
 
-app.listen(3000, (err) => {
+app.listen(process.env.port, (err) => {
     console.log("server is running")
 })

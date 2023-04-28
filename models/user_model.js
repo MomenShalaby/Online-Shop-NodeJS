@@ -2,15 +2,14 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 
-// const DB_URL = "mongodb://127.0.0.1:27017/online_shop";
-const DB_URL = "mongodb+srv://momenahmed2010:blIZhpDsyFOFOBCe@cluster0.qs8mrwv.mongodb.net/?retryWrites=true&w=majority"
+require('dotenv').config()
+const DB_URL = process.env.DATABASE_URL
 
 const User_modelSchema = mongoose.Schema(
     {
         username: {
             type: String,
             required: true,
-            unique: true,
         },
         email: {
             type: String,
@@ -42,9 +41,10 @@ exports.get_all_users = async () => {
 exports.create_new_user = async (username, email, password) => {
     try {
         await mongoose.connect(DB_URL);
-        user = await User_model.findOne({ email: email })
+        user = await User_model.findOne({ email: email }).maxTimeMS(20000);
         if (user) {
             console.log("email exist ")
+            
         }
 
         else {
@@ -83,7 +83,8 @@ exports.login = async (email, password) => {
             const is_same_password = await bcrypt.compare(password, user.password);
             if (!is_same_password) {
                 console.log('incorrect password');
-                throw new Error('incorrect password');
+
+                throw new Error(req.flash('auth_error',err));
             } else {
                 console.log('Login successfully');
                 return user._id;

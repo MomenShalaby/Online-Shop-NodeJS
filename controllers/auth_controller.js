@@ -21,8 +21,8 @@ exports.post_signup = (req, res) => {
             console.log('Password doensnt match')
             res.redirect('/signup')
             return;
-
         }
+        
         User_model.create_new_user(username, email, password)
         res.redirect('/login')
 
@@ -36,7 +36,9 @@ exports.post_signup = (req, res) => {
 }
 
 exports.get_login = (req, res) => {
-    res.render('login')
+    res.render('login',{
+        auth_error:req.flash('auth_error')[0]
+    })
 }
 
 
@@ -49,6 +51,7 @@ exports.post_login = async (req, res) => {
 
         res.redirect('/');
     } catch (err) {
+        req.flash('auth_error',err)
         console.error(err);
         res.redirect('/login');
     }
@@ -58,6 +61,7 @@ exports.post_login = async (req, res) => {
 exports.logout = async (req, res) => {
     try {
         await req.session.destroy()
+        console.log('Logged out successfully')
         res.redirect('/login')
 
     }

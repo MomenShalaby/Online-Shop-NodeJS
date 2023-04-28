@@ -1,7 +1,8 @@
 
 const mongoose = require('mongoose')
-// const DB_URL = "mongodb://127.0.0.1:27017/online_shop";
-const DB_URL = "mongodb+srv://momenahmed2010:blIZhpDsyFOFOBCe@cluster0.qs8mrwv.mongodb.net/?retryWrites=true&w=majority"
+
+require('dotenv').config()
+const DB_URL = process.env.DATABASE_URL
 
 const { ObjectId } = mongoose.Types;
 
@@ -40,20 +41,20 @@ exports.get_filtered_products = async (category) => {
   catch (error) {
     throw error
   }
-} 
+}
 
 exports.get_product_by_id = async (id) => {
   try {
 
-      if(!mongoose.Types.ObjectId.isValid(id)){
-        throw new Error('invalid product ID')
-      }
-      
-      await mongoose.connect(DB_URL)
-        const product_details = await Product_model.findById({ _id: id })
-        mongoose.disconnect()
-        return product_details
-      
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      throw new Error('invalid product ID')
+    }
+
+    await mongoose.connect(DB_URL)
+    const product_details = await Product_model.findById({ _id: id })
+    mongoose.disconnect()
+    return product_details
+
 
   }
   catch (error) {
@@ -61,7 +62,7 @@ exports.get_product_by_id = async (id) => {
   }
 }
 
-exports.unique_categories = async()=>{
+exports.unique_categories = async () => {
   try {
     await mongoose.connect(DB_URL);
 
