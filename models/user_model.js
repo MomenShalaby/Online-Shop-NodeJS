@@ -84,15 +84,15 @@ exports.login = async (email, password) => {
             if (!is_same_password) {
                 console.log('incorrect password');
 
-                throw new Error(req.flash('auth_error',err));
+                throw new Error("incorrect password");
             } else {
                 console.log('Login successfully');
                 return user._id;
             }
         }
     } catch (err) {
-        return Promise.reject(err);
-    } finally {
+        throw err;
+      } finally { 
         mongoose.disconnect();
     }
 };

@@ -46,12 +46,17 @@ exports.post_login = async (req, res) => {
     try {
         const email = req.body.email
         const password = req.body.password
+        if(!email||!password){
+            throw new Error('Email and password are required');
+        
+        }
+        else{
         const user_id = await User_model.login(email, password);
         req.session.userId = user_id;
-
         res.redirect('/');
+    }
     } catch (err) {
-        req.flash('auth_error',err)
+        req.flash('auth_error',err.toString())
         console.error(err);
         res.redirect('/login');
     }
