@@ -22,12 +22,15 @@ const DB_URL = process.env.DATABASE_URL
 const store = new SessionStore({
     uri:DB_URL,
     collection:'sessions'
+
 })
 
 app.use(session({
     secret:'secretkey',
     saveUninitialized:false,
-    store:store
+    store:store,
+    resave: false
+
 }))
 
 app.use(flash())
