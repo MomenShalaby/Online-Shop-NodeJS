@@ -40,7 +40,7 @@ exports.get_all_users = async () => {
 
 exports.create_new_user = async (username, email, password) => {
     try {
-        await mongoose.connect(DB_URL); // set timeout to 60 seconds
+        await mongoose.connect(DB_URL, { connectTimeoutMS: 60000 }); // set timeout to 60 seconds
         const user = await User_model.findOne({ email: email })
         if (user) {
             console.log("email exist ");
