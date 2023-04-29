@@ -8,7 +8,13 @@
         <input type="submit" value="Create Account" class="btn btn-primary">
 
     </form>
-
+    <br>
+    <% if(auth_error) {%>
+        <p class="alert alert-danger">
+            <%= auth_error %>
+        </p>
+        
+        <% } %>
 <br>
 <div>
     Already have an account ? <a href="/login">Login</a>

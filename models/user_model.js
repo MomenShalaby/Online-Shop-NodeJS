@@ -40,11 +40,11 @@ exports.get_all_users = async () => {
 
 exports.create_new_user = async (username, email, password) => {
     try {
-        await mongoose.connect(DB_URL, { connectTimeoutMS: 60000 }); // set timeout to 60 seconds
-        user = await User_model.findOne({ email: email })
+        await mongoose.connect(DB_URL); // set timeout to 60 seconds
+        const user = await User_model.findOne({ email: email })
         if (user) {
-            console.log("email exist ")
-            
+            console.log("email exist ");
+            throw new Error("email exist");
         }
 
         else {
@@ -67,8 +67,8 @@ exports.create_new_user = async (username, email, password) => {
         throw (err)
 
     }
-    finally {
-        mongoose.disconnect
+    finally { 
+        mongoose.disconnect()
     }
 }
 
@@ -93,6 +93,6 @@ exports.login = async (email, password) => {
     } catch (err) {
         throw err;
       } finally { 
-        mongoose.disconnect();
+      await  mongoose.disconnect();
     }
 };
