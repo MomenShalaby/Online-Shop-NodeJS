@@ -39,34 +39,31 @@ exports.get_all_users = async () => {
 }
 
 exports.create_new_user = async (username, email, password) => {
-    try {
-      await mongoose.connect(DB_URL, { connectTimeoutMS: 60000 }); // set timeout to 60 seconds
-  
-      const user = await User_model.findOne({ email: email })
-      if (user) {
-        console.log("email exists");
-        throw new Error("email exists");
-      } else {
-        const hashed_password = await bcrypt.hash(password, 10);
-        const user = new User_model({
-          username: username,
-          email: email,
-          password: hashed_password,
-        });
-        console.log("user created");
-        return user.save();
-      }
-    } catch (error) {
-      if (error instanceof mongoose.Error.MongoError && error.name === 'MongoNotConnectedError') {
-        console.error(`MongoDB not connected: ${error.message}`);
-      } else {
-        console.error(`Error creating user with email ${email}: ${error.message}`);
-      }
-      throw error;
-    } finally {
-      await mongoose.disconnect();
+  try {
+    await mongoose.connect(DB_URL, { connectTimeoutMS: 60000 }); // set timeout to 60 seconds
+
+    const user = await User_model.findOne({ email: email })
+    if (user) {
+      console.log("email exists");
+      throw new Error("email exists");
+    } else {
+      const hashed_password = await bcrypt.hash(password, 10);
+      const user = new User_model({
+        username: username,
+        email: email,
+        password: hashed_password,
+      });
+      console.log("user created");
+      const options = { maxTimeMS: 30000 }; // 30 seconds timeout
+
+      return user.save(options);
     }
+  } catch (error) {
+    throw error;
+  } finally { 
+    await mongoose.disconnect();
   }
+}
 
 exports.login = async (email, password) => {
     try {
