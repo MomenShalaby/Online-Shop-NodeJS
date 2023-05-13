@@ -1,5 +1,5 @@
 # Online-Shop-NodeJS
-This is a simple online shop built using NodeJS, ExpressJS, MongoDB and MVC architecture. This application allows users to view products, add products to cart, make payments, and view their order history.
+This is a simple online shop built using NodeJS, ExpressJS, MongoDB and MVC architecture. This application allows users to view products and  add products to cart .
 
 Installation
 
